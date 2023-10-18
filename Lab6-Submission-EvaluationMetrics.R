@@ -16,6 +16,9 @@ churn_dataset <- read_csv(
 )
 View(churn_dataset)
 
+#summary of dataset
+summary(churn_dataset)
+
 #1. Determine Baseline Accuracy
 #Identify the number of instances that belong to each class (distribution or class breakdown).
 
