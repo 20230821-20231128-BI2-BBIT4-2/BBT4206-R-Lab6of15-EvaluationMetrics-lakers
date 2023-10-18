@@ -25,3 +25,16 @@ View(churn_dataset)
 churn_distribution <- churn_dataset$Churn
 baseline_accuracy <- prop.table(table(churn_distribution)) * 100
 cbind(frequency = table(churn_distribution), percentage = baseline_accuracy)
+
+# Split the dataset
+# Define a 75:25 train:test data split of the dataset.
+# That is, 75% of the original data will be used to train the model and
+# 25% of the original data will be used to test the model.
+
+library(caret)
+train_index <- createDataPartition(churn_dataset$Churn,
+                                   p = 0.75,
+                                   list = FALSE)
+
+churn_train_data <- churn_dataset[train_index, ]
+churn_test_data <- churn_dataset[-train_index, ]
