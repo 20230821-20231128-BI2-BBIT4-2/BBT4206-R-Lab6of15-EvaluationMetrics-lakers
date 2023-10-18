@@ -72,14 +72,25 @@ print(confusion_matrix)
 fourfoldplot(as.table(confusion_matrix), color = c("grey", "lightblue"),
              main = "Confusion Matrix")
 
-# RMSE, R Squared, and MAE 
-## 2.b. Split the dataset ----
+# 2 Classfication
+## Split the dataset ----
 set.seed(7)
 # We apply simple random sampling using the base::sample function to get
 # 10 samples
 train_index <- sample(1:nrow(churn_dataset), 10)
 churn_train_data <- churn_dataset[train_index, ]
 churn_test_data <- churn_dataset[-train_index, ]
+
+# Train the Model for Classification
+# We apply bootstrapping with 1,000 repetitions
+train_control <- trainControl(method = "boot", number = 1000)
+
+# We then train a logistic regression model to predict the value of Churn
+# (whether the customer will churn or not given the independent variables).
+
+churn_model_logistic <- train(Churn ~ ., data = churn_train_data,
+                              method = "glm", family = "binomial", metric = "Accuracy",
+                              trControl = train_control)
 
 
 
