@@ -55,3 +55,18 @@ churn_model_glm <-
 
 # Display the model's performance metrics
 print(churn_model_glm)
+
+#try to fix the age group error
+colnames(churn_test_data)[colnames(churn_test_data) == 'Age Group'] <- 'Age_Group'
+
+# Option 2
+predictions <- predict(churn_model_glm, churn_test_data[, 1:8])
+# Calculate the confusion matrix
+confusion_matrix <- caret::confusionMatrix(predictions, churn_test_data[, 1:9]$Churn)
+print(confusion_matrix)
+
+# Visualizing Confusion Matrix
+fourfoldplot(as.table(confusion_matrix), color = c("grey", "lightblue"),
+             main = "Confusion Matrix")
+
+
