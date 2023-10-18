@@ -73,4 +73,13 @@ fourfoldplot(as.table(confusion_matrix), color = c("grey", "lightblue"),
              main = "Confusion Matrix")
 
 # RMSE, R Squared, and MAE 
+## 2.b. Split the dataset ----
+set.seed(7)
+# We apply simple random sampling using the base::sample function to get
+# 10 samples
+train_index <- sample(1:nrow(churn_dataset), 10)
+churn_train_data <- churn_dataset[train_index, ]
+churn_test_data <- churn_dataset[-train_index, ]
+
+
 
