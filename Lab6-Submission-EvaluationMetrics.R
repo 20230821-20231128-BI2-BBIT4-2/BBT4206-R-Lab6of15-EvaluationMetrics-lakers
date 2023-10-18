@@ -38,3 +38,14 @@ train_index <- createDataPartition(churn_dataset$Churn,
 
 churn_train_data <- churn_dataset[train_index, ]
 churn_test_data <- churn_dataset[-train_index, ]
+
+#Train the Model
+# We apply the 5-fold cross-validation resampling method
+train_control <- trainControl(method = "cv", number = 5)
+
+# We then train a Generalized Linear Model to predict the value of Churn
+# (whether the customer will churn or not).
+set.seed(7)
+churn_model_glm <-
+  train(Churn ~ ., data = churn_train_data, method = "glm",
+        metric = "Accuracy", trControl = train_control)
