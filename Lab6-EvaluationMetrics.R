@@ -392,7 +392,7 @@ diabetes_model_knn <-
 
 print(diabetes_model_knn)
 
-### Option 2: Compute the metric yourself using the test dataset ----
+## Option 2: Compute the metric yourself using the test dataset ----
 #### Sensitivity and Specificity ----
 predictions <- predict(diabetes_model_knn, pima_indians_diabetes_test[, 1:8])
 # These are the values for diabetes that the
