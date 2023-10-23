@@ -1,3 +1,9 @@
+# Install the readr package 
+install.packages("readr")
+
+# Load the readr package
+library(readr)
+
 #Load Customer Churn dataset
 churn_dataset <- read_csv(
   "data/Customer Churn.csv",
@@ -62,17 +68,7 @@ print(churn_model_glm)
 #try to fix the age group error
 colnames(churn_test_data)[colnames(churn_test_data) == 'Age Group'] <- 'Age_Group'
 
-# Option 2
-predictions <- predict(churn_model_glm, churn_test_data[, 1:8])
-# Calculate the confusion matrix
-confusion_matrix <- caret::confusionMatrix(predictions, churn_test_data[, 1:9]$Churn)
-print(confusion_matrix)
-
-# Visualizing Confusion Matrix
-fourfoldplot(as.table(confusion_matrix), color = c("grey", "lightblue"),
-             main = "Confusion Matrix")
-
-# 2 Classfication
+# 2 Classification
 ## Split the dataset ----
 set.seed(7)
 # We apply simple random sampling using the base::sample function to get
