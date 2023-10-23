@@ -100,16 +100,14 @@ print(predictions)
 churn_train_data <- churn_train_data[, !colnames(churn_train_data) %in% "Age Group"]
 churn_test_data <- churn_test_data[, !colnames(churn_test_data) %in% "Age Group"]
 
-churn_model_logistic <- train(Churn ~ ., data = churn_train_data,
-                              method = "glm", family = "binomial", metric = "Accuracy",
-                              trControl = train_control)
-
 # Make predictions without the 'Age Group' column
-predictions <- predict(churn_model_logistic, churn_test_data[, !colnames(churn_test_data) %in% "Age Group"])
-
-
+predictions <- predict(churn_model_glm, churn_test_data[, !colnames(churn_test_data) %in% "Age Group"])
 
 # RMSE
 rmse <- sqrt(mean((churn_test_data$Churn - predictions)^2))
 print(paste("RMSE =", rmse))
+
+# Calculate SSR for the churn predictions
+ssr <- sum((churn_test_data$Churn - predictions)^2)
+print(paste("SSR =", ssr))
 
