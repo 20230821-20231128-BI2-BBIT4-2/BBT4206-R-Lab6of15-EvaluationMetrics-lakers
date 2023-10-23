@@ -131,4 +131,33 @@ mae <- mean(absolute_errors)
 
 print(paste("MAE =", mae))
 
+# 3. Area Under ROC Curve
+#Dataset is already loaded so we determine baseline accuracy
+# The baseline accuracy calculation for your Churn dataset
+churn_freq <- churn_test_data$Churn
+cbind(frequency = table(churn_freq),
+      percentage = prop.table(table(churn_freq)) * 100)
 
+# Define an 80:20 train:test data split of the dataset.
+train_index <- createDataPartition(churn_test_data$Churn,
+                                   p = 0.8,
+                                   list = FALSE)
+
+churn_train_data <- churn_test_data[train_index, ]
+churn_test_data <- churn_test_data[-train_index, ]
+
+# We apply the 10-fold cross-validation resampling method
+train_control <- trainControl(method = "cv", number = 10, classProbs = TRUE, summaryFunction = twoClassSummary)
+
+# List unique factor levels
+unique(churn_test_data$Churn)
+
+# We then train a k Nearest Neighbors Model to predict the value of Customer Churn
+set.seed(7)
+churn_model_knn <- train(Churn ~ ., data = churn_train_data, method = "knn",
+                         metric = "ROC", trControl = train_control)
+
+# Display the model's performance metrics
+print(churn_model_knn)
+
+# 4. Logarithmic Loss (LogLoss
