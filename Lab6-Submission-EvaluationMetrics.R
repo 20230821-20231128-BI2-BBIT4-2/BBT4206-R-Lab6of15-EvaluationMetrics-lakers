@@ -66,9 +66,6 @@ churn_model_glm <-
 # Display the model's performance metrics
 print(churn_model_glm)
 
-#try to fix the age group error
-colnames(churn_test_data)[colnames(churn_test_data) == 'Age Group'] <- 'Age_Group'
-
 # 2. RMSE, R Squared, and MAE
 ## Split the dataset ----
 set.seed(7)
@@ -92,5 +89,27 @@ churn_model_logistic <- train(Churn ~ ., data = churn_train_data,
 # model perfomance
 print(churn_model_logistic)
 
+# Option 2: Compute the metric yourself using the test dataset
+predictions <- predict(churn_model_glm, churn_test_data[, 1:8])
 
+# These are the predicted values for Churn from the model:
+print(predictions)
+
+# Assuming 'Age Group' is the column to be excluded
+#We excluded because it brought error when computing RMSE
+churn_train_data <- churn_train_data[, !colnames(churn_train_data) %in% "Age Group"]
+churn_test_data <- churn_test_data[, !colnames(churn_test_data) %in% "Age Group"]
+
+churn_model_logistic <- train(Churn ~ ., data = churn_train_data,
+                              method = "glm", family = "binomial", metric = "Accuracy",
+                              trControl = train_control)
+
+# Make predictions without the 'Age Group' column
+predictions <- predict(churn_model_logistic, churn_test_data[, !colnames(churn_test_data) %in% "Age Group"])
+
+
+
+# RMSE
+rmse <- sqrt(mean((churn_test_data$Churn - predictions)^2))
+print(paste("RMSE =", rmse))
 
