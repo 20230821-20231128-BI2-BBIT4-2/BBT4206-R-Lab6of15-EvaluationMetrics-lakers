@@ -60,8 +60,6 @@ churn_model_glm <-
   train(Churn ~ ., data = churn_train_data, method = "glm",
         metric = "Accuracy", trControl = train_control)
 
-# Display the Model's Performance
-# Option 1: Use the metric calculated by caret when training the model
 
 # Display the model's performance metrics
 print(churn_model_glm)
