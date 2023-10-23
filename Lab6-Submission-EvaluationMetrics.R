@@ -124,3 +124,5 @@ r_squared <- 1 - (ssr / sst)
 print(paste("R Squared =", r_squared))
 
 
+
+
