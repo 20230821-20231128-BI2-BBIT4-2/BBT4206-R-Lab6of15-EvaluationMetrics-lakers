@@ -160,4 +160,16 @@ churn_model_knn <- train(Churn ~ ., data = churn_train_data, method = "knn",
 # Display the model's performance metrics
 print(churn_model_knn)
 
-# 4. Logarithmic Loss (LogLoss
+# 4. Logarithmic Loss (LogLoss)
+# We apply the 5-fold repeated cross-validation resampling method with 3 repeats
+train_control <- trainControl(method = "repeatedcv", number = 5, repeats = 3,
+                              classProbs = TRUE,
+                              summaryFunction = mnLogLoss)
+set.seed(7)
+
+# Train a decision tree model (CART) to predict Churn
+churn_model_cart <- train(Churn ~ ., data = churn_train_data, method = "rpart",
+                          metric = "logLoss", trControl = train_control)
+
+# Display the model's performance metrics
+print(churn_model_cart)
