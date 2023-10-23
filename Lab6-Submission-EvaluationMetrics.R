@@ -25,7 +25,8 @@ View(churn_dataset)
 #summary of dataset
 summary(churn_dataset)
 
-#1. Determine Baseline Accuracy
+#1. Accuracy and Cohen's Kappa
+#Determine Baseline Accuracy
 #Identify the number of instances that belong to each class (distribution or class breakdown).
 
 # Assuming "Churn" is the column in your dataset that indicates the class (0 or 1),
@@ -68,7 +69,7 @@ print(churn_model_glm)
 #try to fix the age group error
 colnames(churn_test_data)[colnames(churn_test_data) == 'Age Group'] <- 'Age_Group'
 
-# 2 Classification
+# 2. RMSE, R Squared, and MAE
 ## Split the dataset ----
 set.seed(7)
 # We apply simple random sampling using the base::sample function to get
@@ -87,6 +88,9 @@ train_control <- trainControl(method = "boot", number = 1000)
 churn_model_logistic <- train(Churn ~ ., data = churn_train_data,
                               method = "glm", family = "binomial", metric = "Accuracy",
                               trControl = train_control)
+
+# model perfomance
+print(churn_model_logistic)
 
 
 
