@@ -101,7 +101,8 @@ churn_train_data <- churn_train_data[, !colnames(churn_train_data) %in% "Age Gro
 churn_test_data <- churn_test_data[, !colnames(churn_test_data) %in% "Age Group"]
 
 # Make predictions without the 'Age Group' column
-predictions <- predict(churn_model_glm, churn_test_data[, !colnames(churn_test_data) %in% "Age Group"])
+age_group_removed_test_data <- churn_test_data[, !colnames(churn_test_data) %in% "Age Group"]
+predictions <- predict(churn_model_glm, newdata = age_group_removed_test_data)
 
 # RMSE
 rmse <- sqrt(mean((churn_test_data$Churn - predictions)^2))
@@ -110,4 +111,16 @@ print(paste("RMSE =", rmse))
 # Calculate SSR for the churn predictions
 ssr <- sum((churn_test_data$Churn - predictions)^2)
 print(paste("SSR =", ssr))
+
+# Calculate SSR for the churn predictions
+ssr <- sum((churn_test_data$Churn - predictions)^2)
+
+# Calculate SST (Total Sum of Squares)
+sst <- sum((churn_test_data$Churn - mean(churn_test_data$Churn))^2)
+
+# Calculate R-squared
+r_squared <- 1 - (ssr / sst)
+
+print(paste("R Squared =", r_squared))
+
 
