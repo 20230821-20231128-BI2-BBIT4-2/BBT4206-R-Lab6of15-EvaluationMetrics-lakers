@@ -123,6 +123,12 @@ r_squared <- 1 - (ssr / sst)
 
 print(paste("R Squared =", r_squared))
 
+# Calculate absolute errors for the churn predictions
+absolute_errors <- abs(predictions - churn_test_data$Churn)
 
+# Calculate MAE (Mean Absolute Error)
+mae <- mean(absolute_errors)
+
+print(paste("MAE =", mae))
 
 
